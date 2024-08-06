@@ -1,45 +1,48 @@
 import flet as ft
-import pages.loginPage as loginPageView
-import pages.registerPage as registerPageView
-
-def splash_screen(page: ft.Page):
-    page.title = "EduPass"
-    page.bgcolor = ft.colors.WHITE
-    logo = ft.Image(src="../assets/Logo.png", width=200, height=200)
-    btn_vai = ft.ElevatedButton(text="Vai", bgcolor=ft.colors.GREEN, color=ft.colors.BLACK, on_click=lambda _: page.go("/loginPage"))
-    page.add(
-        ft.Column(
-            [
-                ft.Row(
-                    [logo, btn_vai],
-                    alignment=ft.MainAxisAlignment.CENTER,
-                    expand=True
-                )
-            ],
-            alignment=ft.MainAxisAlignment.CENTER,
-            expand=True
-        )
-    )
-    page.update()
-
-
-def route_change(page: ft.Page):
-    page.views.clear()
-    if page.route == "/":
-        splash_screen(page)
-    elif page.route == "/loginPage":
-        page.views.append(loginPageView(page))
-    elif page.route == "/registerPage":
-        page.views.append(registerPageView(page))
-    page.update()
-
-def view_pop(page: ft.Page):
-    page.views.pop()
-    top_view = page.views[-1]
-    page.go(top_view.route)
+from pages.loginPage import loginPageView
+from pages.registerPage import registerPageView
+from pages.splashScreen import splashScreenView
+import threading
 
 def main(page: ft.Page):
+    # Configurações da janela
+    page.title = "EduPass"
+    page.window.width = 800  # Atualizado aqui
+    page.window.height = 600  # Atualizado aqui
+    page.bgcolor = "#FFFFFF"
+    
+    # Definindo a função de mudança de rota
+    def route_change(route):
+        page.views.clear()
+        if page.route == "/splash":
+            page.views.append(splashScreenView(page))
+        elif page.route == "/loginPage":
+            page.views.append(loginPageView(page))
+        elif page.route == "/registerPage":
+            page.views.append(registerPageView(page))
+        else:
+            page.views.append(
+                ft.View(
+                    "/",
+                    [
+                        ft.AppBar(title=ft.Text("EduPass")),
+                        ft.ElevatedButton(text="Ir para Login", on_click=lambda _: page.go("/loginPage")),
+                        ft.ElevatedButton(text="Ir para Registro", on_click=lambda _: page.go("/registerPage")),
+                    ],
+                )
+            )
+        page.update()
+    
     page.on_route_change = route_change
-    page.on_view_pop = view_pop
-    page.go(page.route)
+    page.go("/splash")
+
+    # Configura o temporizador para a tela de splash
+    def switch_to_login():
+        page.go("/loginPage")
+
+    def start_timer():
+        threading.Timer(3.0, switch_to_login).start()
+
+    start_timer()
+
 ft.app(target=main)
