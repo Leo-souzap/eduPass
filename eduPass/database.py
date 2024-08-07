@@ -2,14 +2,16 @@ import sqlite3
 import hashlib
 
 class Database:
-    def __init__(self, db_name="eduPass"):
+    def __init__(self, db_name="eduPass.db"):
         self.conn = sqlite3.connect(db_name)
         self.cursor = self.conn.cursor()
         self.create_tables()
 
     #Função para criar as tabelas que serão utilizadas
     def create_tables(self):
-        self.cursor.execute('''
+
+        try:
+            self.cursor.execute('''
                                 CREATE TABLE IF NOT EXISTS Alunos(
                                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                                     nome TEXT NOT NULL,
@@ -20,7 +22,7 @@ class Database:
                                 )
                             ''')
         
-        self.cursor.execute('''
+            self.cursor.execute('''
                                 CREATE TABLE IF NOT EXISTS Cursos(
                                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                                     tipo TEXT NOT NULL,
@@ -34,8 +36,14 @@ class Database:
                                     FOREIGN KEY (aluno_id) REFERENCES Alunos(id)
                                 )
                             ''')
+            
+            self.conn.commit()
+
+            print("Tabelas criadas com sucesso")
+
+        except sqlite3.Error as e:
+            print(f"Erro ao criar tabelas: {e}")
         
-        self.conn.commit()
 
     #Função para gerar hash da senha
     def hash_password(self, password):
@@ -50,7 +58,7 @@ class Database:
         hashed_password = self.hash_password(password)
 
         try:
-            self.cursor.execute("INSERT INTO Aluno (nome, cpf, email, celular, password) VALUES (?, ?, ?, ?, ?)", (nome, cpf, email, celular, hashed_password))
+            self.cursor.execute("INSERT INTO Alunos (nome, cpf, email, celular, password) VALUES (?, ?, ?, ?, ?)", (nome, cpf, email, celular, hashed_password))
 
             self.conn.commit()
 
@@ -63,7 +71,7 @@ class Database:
     def add_course(self, tipo, unidade, curso, turno, frequencia, aprovado, comentario, aluno_id):
         try:
             self.cursor.execute('''
-                                INSERT INTO Aluno (tipo, unidade, curso, turno, frequencia, aprovado, comentario, aluno_id) 
+                                INSERT INTO Cursos (tipo, unidade, curso, turno, frequencia, aprovado, comentario, aluno_id) 
                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)''', 
                                 (tipo, unidade, curso, turno, frequencia, aprovado, comentario, aluno_id))
             

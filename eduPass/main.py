@@ -1,7 +1,7 @@
 import flet as ft
 from pages.loginPage import loginPageView
 from pages.registerPage import registerPageView
-from pages.splashScreen import splashScreenView
+from pages.splashScreen import SplashScreen
 import threading
 
 def main(page: ft.Page):
@@ -10,12 +10,14 @@ def main(page: ft.Page):
     page.window.width = 800  # Atualizado aqui
     page.window.height = 600  # Atualizado aqui
     page.bgcolor = "#FFFFFF"
+
+    splash_screen = SplashScreen(page)
     
     # Definindo a função de mudança de rota
     def route_change(route):
         page.views.clear()
         if page.route == "/splash":
-            page.views.append(splashScreenView(page))
+            page.views.append(splash_screen.splashScreenView())
         elif page.route == "/loginPage":
             page.views.append(loginPageView(page))
         elif page.route == "/registerPage":
