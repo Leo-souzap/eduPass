@@ -4,33 +4,40 @@ def documentsPageView(page: ft.Page):
     return ft.View(
         "/documentsPage",
         [
+            # Container principal
             ft.Container(
-                bgcolor="#FFFFFF",
-                padding=20,
+                bgcolor="#FFFFFF",  # Cor de fundo
+                padding=20,  # Padding interno
                 content=ft.Column(
                     [
+                        # Cabeçalho com logo e botão de menu
                         ft.Row(
                             [
-                                ft.Image(src="../assets/Logo.png", width=80, height=40),
-                                ft.TextButton("Menu", on_click=lambda _: page.go("/menuPage"), style=ft.ButtonStyle(color="#888888")),
+                                ft.Image(src="../assets/Logo.png", width=80, height=40),  # Logo
+                                ft.TextButton(
+                                    "Menu", 
+                                    on_click=lambda _: page.go("/menuPage"),  # Navegação para Menu
+                                    style=ft.ButtonStyle(color="#888888")  # Estilo do botão
+                                ),
                             ],
-                            alignment="spaceBetween",
+                            alignment="spaceBetween",  # Alinhamento dos itens
                         ),
+                        # Título centralizado
                         ft.Text(
                             "Documentos",
-                            size=24,
-                            color="#888888",
-                            text_align="center",
-                            width=page.window.width,  # Define a largura para centralizar o texto
+                            size=24,  # Tamanho da fonte
+                            color="#888888",  # Cor do texto
+                            text_align="center",  # Alinhamento do texto
+                            width=page.window.width,  # Largura para centralizar
                         ),
-                        # Conteúdo da página de Documentos
+                        # Container para o conteúdo da página
                         ft.Container(
-                            # Adicione seu conteúdo aqui
+                            # Adicionar conteúdo aqui
                         ),
-                        ft.Container(height=10),  # Espaçamento vertical acima do botão de voltar
-                        # O botão "Menu" já está no topo da página
+                        # Espaço acima do botão de voltar
+                        ft.Container(height=10),  # Espaço vertical
                     ],
-                    alignment="center",
+                    alignment="center",  # Alinhamento dos itens
                 ),
             )
         ],

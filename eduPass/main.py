@@ -10,12 +10,14 @@ from pages.statusPage import statusPageView
 import threading
 
 def main(page: ft.Page):
+    # Configurações iniciais da página
     page.title = "EduPass"
     page.window.width = 800
     page.window.height = 600
     page.bgcolor = "#FFFFFF"
     
     def route_change(route):
+        # Limpa e atualiza a visualização com base na rota
         page.views.clear()
         if page.route == "/splash":
             page.views.append(splashScreenView(page))
@@ -33,18 +35,19 @@ def main(page: ft.Page):
             page.views.append(documentsPageView(page))
         elif page.route == "/statusPage":
             page.views.append(statusPageView(page))
-        # Nenhuma página padrão ou fallback para exibir
-        page.update()
-    
-    page.on_route_change = route_change
-    page.go("/splash")
+        page.update()  # Atualiza a página
+
+    page.on_route_change = route_change  # Define a função de mudança de rota
+    page.go("/splash")  # Inicialmente vai para a página de splash
 
     def switch_to_login():
+        # Navega para a página de login após o timer
         page.go("/loginPage")
 
     def start_timer():
+        # Inicia um timer para mudar para a página de login após 3 segundos
         threading.Timer(3.0, switch_to_login).start()
 
-    start_timer()
+    start_timer()  # Começa o timer
 
 ft.app(target=main)
