@@ -1,61 +1,74 @@
 import flet as ft
+from database import Database
 
-def registerPageView(page: ft.Page):
-    # Função que será chamada ao clicar no botão "CRIAR CONTA"
-    def criar_conta(e):
-        # Verifica se todos os campos estão preenchidos
-        if not nome.value or not cpf.value or not email.value or not celular.value or not senha.value:
-            mensagem.value = "Por favor, preencha todos os campos."
-            mensagem.color = "red"
+class RegisterPage:
+    def __init__(self, page: ft.Page):
+        self.page = page
+        self.db = Database()
+    
+    def criar_conta(self, e):
+        nome = self.campo_nome.value
+        cpf = self.campo_cpf.value
+        email = self.campo_email.value
+        celular = self.campo_celular.value
+        senha = self.campo_senha.value
+
+        if not nome or not cpf or not email or not celular or not senha:
+            self.mensagem.value = "Por favor, preencha todos os campos."
+            self.mensagem.color = ft.colors.GREEN
         else:
-            mensagem.value = "Cadastro concluído com sucesso!"
-            mensagem.color = "green"
-        mensagem.update()
+            self.db.add_student(nome, cpf, email, celular, senha)
 
-    # Criação dos campos de entrada (TextField) para cada dado necessário
-    nome = ft.TextField(label="Nome", bgcolor="#ffffff", border_width=2, border_color="#2478ff")
-    cpf = ft.TextField(label="CPF", bgcolor="#ffffff", border_width=2, border_color="#2478ff")
-    email = ft.TextField(label="Email", bgcolor="#ffffff", border_width=2, border_color="#2478ff")
-    celular = ft.TextField(label="Celular", bgcolor="#ffffff", border_width=2, border_color="#2478ff")
-    senha = ft.TextField(label="Cadastrar Senha", password=True, can_reveal_password=True, bgcolor="#ffffff", border_width=2, border_color="#2478ff")
-    mensagem = ft.Text("")  # Texto para exibir mensagens de feedback para o usuário
+            self.mensagem.value = "Cadastro concluído com sucesso!"
+            self.mensagem.color = ft.colors.GREEN
 
-    # Retorna uma View contendo todos os elementos da página de registro
-    return ft.View(
-        "/registerPage",
-        [
-            # Barra de navegação superior (AppBar) com título e ícone
-            ft.AppBar(
-                title=ft.Text("Registro", style="headlineSmall", color="#FFFFFF"),
-                bgcolor="#FBB927",
-                color="#FFFFFF"
-            ),
-            # Container principal da página
-            ft.Container(
-                width=page.window.width,
-                height=page.window.height,
-                bgcolor="#FFFFFF",
-                padding=20,
-                content=ft.Column(
-                    controls=[
-                        ft.Text("Olá, Estudante! Informe os seus Dados", style="headlineMedium", color="#22209B"),  # Título da seção
-                        nome,
-                        cpf,
-                        email,
-                        celular,
-                        senha,
-                        mensagem,
-                        # Botão para criar conta, que chama a função criar_conta ao ser clicado
-                        ft.ElevatedButton("CRIAR CONTA", bgcolor="#FBB927", color="#ffffff", on_click=criar_conta),
-                    ],
-                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                    spacing=20,
-                    width=400,  # Largura da coluna centralizada
+            self.mensagem.update()
+
+            self.page.go("/loginPage")
+        
+        self.mensagem.update()
+
+
+    def registerPageView(self):
+        self.campo_nome = ft.TextField(hint_text="Nome", bgcolor=ft.colors.GREY,border_radius=10, border_width=0)
+        self.campo_cpf = ft.TextField(hint_text="CPF", bgcolor=ft.colors.GREY,border_radius=10, border_width=0)
+        self.campo_email = ft.TextField(hint_text="Email", bgcolor=ft.colors.GREY,border_radius=10, border_width=0)
+        self.campo_celular = ft.TextField(hint_text="Celular", bgcolor=ft.colors.GREY,border_radius=10, border_width=0)
+        self.campo_senha = ft.TextField(hint_text="Cadastrar Senha", password=True, can_reveal_password=True, bgcolor=ft.colors.GREY,border_radius=10, border_width=0)
+        self.mensagem = ft.Text("")
+
+        return ft.View(
+            "/registerPage",
+            [
+                ft.AppBar(
+                    leading=ft.Image(src="../assets/Logo.png", width=self.page.window.width * 0.1, height=self.page.window.height * 0.1, fit=ft.ImageFit.CONTAIN),
+                    bgcolor="#ffffff",
+                ),
+                # Container principal da página
+                ft.Container(
+                    width=self.page.window.width,
+                    height=self.page.window.height,
+                    margin=-10,
+                    bgcolor="#ffffff",
+                    content=ft.Column(
+                        controls=[
+                            ft.Text("Olá, Estudante! Informe os seus Dados", style=ft.TextStyle(color="#22209B")),  # Título da seção
+                            self.campo_nome,
+                            self.campo_cpf,
+                            self.campo_email,
+                            self.campo_celular,
+                            self.campo_senha,
+                            self.mensagem,
+                            # Botão para criar conta, que chama a função criar_conta ao ser clicado
+                            ft.ElevatedButton("CRIAR CONTA", bgcolor=ft.colors.ORANGE, color=ft.colors.WHITE, width=self.page.window.width * 0.8, on_click=self.criar_conta),
+                        ],
+                        alignment=ft.MainAxisAlignment.CENTER,
+                        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                        spacing=20,
+                    ),
+                    padding=20
                 )
-            )
-        ]
-    )
+            ]
+        )
 
-# Exemplo de como executar a aplicação
-if __name__ == "__main__":
-    ft.app(target=registerPageView)
+
