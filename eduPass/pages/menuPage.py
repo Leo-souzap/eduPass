@@ -25,7 +25,7 @@ class MenuPage:
             "/menuPage",
             [
                 ft.Container(
-                    height=40,
+                    margin=-10,
                     content=ft.Row(
                         [
                             ft.Image(src="../assets/Logo.png", width=self.page.window.width * 0.1, height=80, fit=ft.ImageFit.CONTAIN),

@@ -13,6 +13,7 @@ class SplashScreen:
                 ft.Container(
                     width=self.page.window.width,
                     height=self.page.window.height,
+                    margin=-10,
                     bgcolor="#ffffff",
                     content=ft.Column(
                         controls=[

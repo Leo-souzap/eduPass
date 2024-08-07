@@ -90,6 +90,10 @@ class Database:
         except sqlite3.Error as e:
             print(f"Erro ao verificar login: {e}")
             return False
+        
+    def get_student_info(self, aluno_id):
+        self.cursor.execute("SELECT nome, cpf, email, celular FROM Alunos WHERE id = ?", (aluno_id,))
+        return self.cursor.fetchone()
 
     def close(self):
         if self.conn:
