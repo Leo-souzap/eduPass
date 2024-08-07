@@ -1,40 +1,27 @@
 import flet as ft
+from database import Database
 
-def splashScreenView(page: ft.Page):
-    return ft.View(
-        "/splash",
-        [
-            ft.Stack(
-                [
-                    ft.Container(
-                        width=page.window.width,
-                        height=page.window.height,
-                        content=ft.Image(
-                            src="../assets/Logo.png",
-                            fit=ft.ImageFit.CONTAIN,
-                            width=page.window.width * 0.6,
-                            height=page.window.height * 0.6, 
-                        ),
+class SplashScreen:
+    def __init__(self, page: ft.Page):
+        self.page = page
+        self.db = Database()
+
+    def splashScreenView(self):
+        return ft.View(
+            "/splash",
+            controls=[
+                ft.Container(
+                    width=self.page.window.width,
+                    height=self.page.window.height,
+                    bgcolor="#ffffff",
+                    content=ft.Column(
+                        controls=[
+                            ft.Image(src="../assets/Logo.png", width=self.page.window.width * 0.3, height=self.page.window.width * 0.3, fit=ft.ImageFit.CONTAIN)
+                        ],
+                        alignment=ft.MainAxisAlignment.CENTER,
+                        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                        spacing=20,
                     ),
-                    ft.Container(
-                        width=page.window.width,
-                        height=page.window.height,
-                        alignment=ft.alignment.center,
-                        content=ft.Column(
-                            [
-                                # ft.Text(
-                                #     "EduPass",
-                                #     size=50,
-                                #     weight=ft.FontWeight.BOLD,
-                                #     color="black",
-                                # ),
-                                ft.ProgressBar(width=200, color="#ffffff", value=0.5),  
-                            ],
-                            alignment="center",
-                            spacing=10,
-                        ),
-                    ),
-                ],
-            )
-        ],
-    )
+                )
+            ],
+        )
