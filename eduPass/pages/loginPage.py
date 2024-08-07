@@ -6,7 +6,7 @@ class LoginPage:
         self.page = page
         self.db = Database()
 
-    def on_login_click(self, e):
+    def logar_usuario(self, e):
         usuario = self.campo_usuario.value
         senha = self.campo_senha.value
 
@@ -16,6 +16,8 @@ class LoginPage:
             self.mensagem.update()
         else:
             if self.db.verify_login(usuario, senha):
+                aluno_id = self.db.verify_login(usuario, senha)
+                self.page.session.set("aluno_id", aluno_id)
                 self.page.go("/menuPage")
             else:
                 self.mensagem.value = "Email ou senha estão incorretos, digite novamente."
@@ -47,7 +49,7 @@ class LoginPage:
                                 bgcolor=ft.colors.ORANGE,
                                 color=ft.colors.WHITE,
                                 width=self.page.window.width * 0.8,
-                                on_click= self.on_login_click
+                                on_click= self.logar_usuario
                             ),
                             ft.TextButton(
                                 text="Cadastre-se aqui",

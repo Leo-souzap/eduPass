@@ -6,7 +6,7 @@ class RegisterPage:
         self.page = page
         self.db = Database()
     
-    def criar_conta(self, e):
+    def inserir_aluno(self, e):
         nome = self.campo_nome.value
         cpf = self.campo_cpf.value
         email = self.campo_email.value
@@ -18,11 +18,6 @@ class RegisterPage:
             self.mensagem.color = ft.colors.GREEN
         else:
             self.db.add_student(nome, cpf, email, celular, senha)
-
-            self.mensagem.value = "Cadastro concluído com sucesso!"
-            self.mensagem.color = ft.colors.GREEN
-
-            self.mensagem.update()
 
             self.page.go("/loginPage")
         
@@ -72,7 +67,7 @@ class RegisterPage:
                             self.campo_senha,
                             self.mensagem,
                             # Botão para criar conta, que chama a função criar_conta ao ser clicado
-                            ft.ElevatedButton("CRIAR CONTA", bgcolor=ft.colors.ORANGE, color=ft.colors.WHITE, width=self.page.window.width * 0.8, on_click=self.criar_conta),
+                            ft.ElevatedButton("CRIAR CONTA", bgcolor=ft.colors.ORANGE, color=ft.colors.WHITE, width=self.page.window.width * 0.8, on_click=self.inserir_aluno),
                         ],
                         alignment=ft.MainAxisAlignment.CENTER,
                         horizontal_alignment=ft.CrossAxisAlignment.CENTER,

@@ -78,10 +78,15 @@ class Database:
     def verify_login(self, email, password):
         hashed_password = self.hash_password(password)
         try:
-            self.cursor.execute("SELECT * FROM Alunos WHERE email = ? AND password = ?", 
+            self.cursor.execute("SELECT id FROM Alunos WHERE email = ? AND password = ?", 
                                 (email, hashed_password))
+            
             user = self.cursor.fetchone()
-            return user is not None
+            
+            if user:
+                return user[0]
+            else:
+                return False
         except sqlite3.Error as e:
             print(f"Erro ao verificar login: {e}")
             return False

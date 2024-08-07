@@ -3,6 +3,7 @@ from pages.splashScreen import SplashScreen
 from pages.loginPage import LoginPage
 from pages.registerPage import RegisterPage
 from pages.menuPage import MenuPage
+from pages.coursePage import CoursePage
 import threading
 
 def main(page: ft.Page):
@@ -16,6 +17,7 @@ def main(page: ft.Page):
     login_page  = LoginPage(page)
     register_page  = RegisterPage(page)
     menu_page  = MenuPage(page)
+    course_page  = CoursePage(page)
     
     
     # Definindo a função de mudança de rota
@@ -29,6 +31,8 @@ def main(page: ft.Page):
             page.views.append(register_page.registerPageView())
         elif page.route == "/menuPage":
             page.views.append(menu_page.menuPageView())
+        elif page.route == "/coursePage":
+            page.views.append(course_page.coursePageView())
         else:
             page.views.append(
                 ft.View(
