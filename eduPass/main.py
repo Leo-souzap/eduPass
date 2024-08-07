@@ -2,16 +2,19 @@ import flet as ft
 from pages.loginPage import loginPageView
 from pages.registerPage import registerPageView
 from pages.splashScreen import splashScreenView
+from pages.menuPage import menuPageView
+from pages.profilePage import profilePageView
+from pages.coursePage import coursePageView
+from pages.documentsPage import documentsPageView
+from pages.statusPage import statusPageView
 import threading
 
 def main(page: ft.Page):
-    # Configurações da janela
     page.title = "EduPass"
-    page.window.width = 800  # Atualizado aqui
-    page.window.height = 600  # Atualizado aqui
+    page.window.width = 800
+    page.window.height = 600
     page.bgcolor = "#FFFFFF"
     
-    # Definindo a função de mudança de rota
     def route_change(route):
         page.views.clear()
         if page.route == "/splash":
@@ -20,23 +23,22 @@ def main(page: ft.Page):
             page.views.append(loginPageView(page))
         elif page.route == "/registerPage":
             page.views.append(registerPageView(page))
-        else:
-            page.views.append(
-                ft.View(
-                    "/",
-                    [
-                        ft.AppBar(title=ft.Text("EduPass")),
-                        ft.ElevatedButton(text="Ir para Login", on_click=lambda _: page.go("/loginPage")),
-                        ft.ElevatedButton(text="Ir para Registro", on_click=lambda _: page.go("/registerPage")),
-                    ],
-                )
-            )
+        elif page.route == "/menuPage":
+            page.views.append(menuPageView(page))
+        elif page.route == "/profilePage":
+            page.views.append(profilePageView(page))
+        elif page.route == "/coursePage":
+            page.views.append(coursePageView(page))
+        elif page.route == "/documentsPage":
+            page.views.append(documentsPageView(page))
+        elif page.route == "/statusPage":
+            page.views.append(statusPageView(page))
+        # Nenhuma página padrão ou fallback para exibir
         page.update()
     
     page.on_route_change = route_change
     page.go("/splash")
 
-    # Configura o temporizador para a tela de splash
     def switch_to_login():
         page.go("/loginPage")
 
