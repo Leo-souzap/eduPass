@@ -40,9 +40,21 @@ class RegisterPage:
         return ft.View(
             "/registerPage",
             [
-                ft.AppBar(
-                    leading=ft.Image(src="../assets/Logo.png", width=self.page.window.width * 0.1, height=self.page.window.height * 0.1, fit=ft.ImageFit.CONTAIN),
+                ft.Container(
+                    height=40,
+                    content=ft.Row(
+                        [
+                            ft.Image(src="../assets/Logo.png", width=self.page.window.width * 0.1, height=80, fit=ft.ImageFit.CONTAIN),
+                            ft.TextButton(
+                                "Voltar", 
+                                on_click=lambda _: self.page.go("/loginPage"),  # Navega para a página de login
+                                style=ft.ButtonStyle(color="#888888")  # Estilo do botão
+                            ),
+                        ],
+                        alignment=ft.MainAxisAlignment.SPACE_BETWEEN  # Espaça os elementos igualmente
+                    ),
                     bgcolor="#ffffff",
+                    padding=ft.padding.all(10)  # Adiciona padding para melhor visualização
                 ),
                 # Container principal da página
                 ft.Container(

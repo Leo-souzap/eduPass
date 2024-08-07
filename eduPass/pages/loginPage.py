@@ -16,8 +16,7 @@ class LoginPage:
             self.mensagem.update()
         else:
             if self.db.verify_login(usuario, senha):
-                self.mensagem.value = "Logado"
-                self.mensagem.color = ft.colors.GREEN
+                self.page.go("/menuPage")
             else:
                 self.mensagem.value = "Email ou senha estão incorretos, digite novamente."
                 self.mensagem.color = ft.colors.GREEN

@@ -1,19 +1,21 @@
 import flet as ft
+from pages.splashScreen import SplashScreen
 from pages.loginPage import LoginPage
 from pages.registerPage import RegisterPage
-from pages.splashScreen import SplashScreen
+from pages.menuPage import MenuPage
 import threading
 
 def main(page: ft.Page):
-    # Configurações da janela
+
     page.title = "EduPass"
-    page.window.width = 800  # Atualizado aqui
-    page.window.height = 600  # Atualizado aqui
+    page.window.width = 800 
+    page.window.height = 800
     page.bgcolor = "#FFFFFF"
 
     splash_screen = SplashScreen(page)
     login_page  = LoginPage(page)
     register_page  = RegisterPage(page)
+    menu_page  = MenuPage(page)
     
     
     # Definindo a função de mudança de rota
@@ -25,6 +27,8 @@ def main(page: ft.Page):
             page.views.append(login_page.loginPageView())
         elif page.route == "/registerPage":
             page.views.append(register_page.registerPageView())
+        elif page.route == "/menuPage":
+            page.views.append(menu_page.menuPageView())
         else:
             page.views.append(
                 ft.View(
