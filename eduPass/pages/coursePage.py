@@ -30,7 +30,7 @@ class CoursePage:
         self.campo_unidade = ft.TextField(hint_text="Unidade de Ensino", bgcolor=ft.colors.GREY,border_radius=10, border_width=0)
         self.campo_curso = ft.TextField(hint_text="Curso", bgcolor=ft.colors.GREY,border_radius=10, border_width=0)
         self.campo_turno = ft.TextField(hint_text="Turno", bgcolor=ft.colors.GREY,border_radius=10, border_width=0)
-        self.campo_frequencia = ft.TextField(hint_text="Frequência Mensal", password=True, can_reveal_password=True, bgcolor=ft.colors.GREY,border_radius=10, border_width=0)
+        self.campo_frequencia = ft.TextField(hint_text="Frequência Mensal", bgcolor=ft.colors.GREY,border_radius=10, border_width=0)
         self.mensagem = ft.Text("")
 
         return ft.View(

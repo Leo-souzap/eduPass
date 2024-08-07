@@ -77,6 +77,7 @@ class Database:
 
     def verify_login(self, email, password):
         hashed_password = self.hash_password(password)
+
         try:
             self.cursor.execute("SELECT id FROM Alunos WHERE email = ? AND password = ?", 
                                 (email, hashed_password))
@@ -92,8 +93,22 @@ class Database:
             return False
         
     def get_student_info(self, aluno_id):
-        self.cursor.execute("SELECT nome, cpf, email, celular FROM Alunos WHERE id = ?", (aluno_id,))
-        return self.cursor.fetchone()
+        try:
+            self.cursor.execute("SELECT nome, cpf, email, celular FROM Alunos WHERE id = ?", (aluno_id,))
+            return self.cursor.fetchone()
+        except sqlite3.Error as e:
+            print(f"Erro ao pegar informações do curso: {e}")
+            return False
+        
+    
+    def get_course_info(self, aluno_id):
+        print(aluno_id)
+        try:
+            self.cursor.execute("SELECT tipo, unidade, curso, turno, frequencia, aprovado, comentario FROM Cursos WHERE aluno_id = ?", (aluno_id,))
+            return self.cursor.fetchone()
+        except sqlite3.Error as e:
+            print(f"Erro ao pegar informações do curso: {e}")
+            return False
 
     def close(self):
         if self.conn:

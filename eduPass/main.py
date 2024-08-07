@@ -5,6 +5,7 @@ from pages.registerPage import RegisterPage
 from pages.menuPage import MenuPage
 from pages.coursePage import CoursePage
 from pages.profilePage import ProfilePage
+from pages.statusPage import StatusPage
 import threading
 
 def main(page: ft.Page):
@@ -20,7 +21,7 @@ def main(page: ft.Page):
     menu_page  = MenuPage(page)
     course_page  = CoursePage(page)
     profile_page = ProfilePage(page)
-    
+    status_page = StatusPage(page)
     
     # Definindo a função de mudança de rota
     def route_change(route):
@@ -37,6 +38,8 @@ def main(page: ft.Page):
             page.views.append(course_page.coursePageView())
         elif page.route == "/profilePage":
             page.views.append(profile_page.profilePageView())
+        elif page.route == "/statusPage":
+            page.views.append(status_page.statusPageView())
         else:
             page.views.append(
                 ft.View(
